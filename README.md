@@ -33,7 +33,7 @@ Følgende kommandoer kan brukes av alle:
 * $vaffel - Legger brukeren til i køen for vaffelbestilling
 * $kø - Viser hvilken plass brukeren har i køen. Viser antall personer som er i køen ellers
 
-Rollen 'Orakel' har i tillegg tilgang til følgende kommandoer:
+Rollen 'orakel' har i tillegg tilgang til følgende kommandoer:
 * $vaffelstart - Åpner for vaffelbestilling
 * $vaffelstopp - Stenger vaffelbestilling. $stekt kommandoen kan fremdeles brukes
 * $stekt - Melder om at nye vaffler er stekt. Gir beskjed til de neste personene i køen

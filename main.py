@@ -24,10 +24,10 @@ q = deque()
 
 
 def bruker_er_orakel(ctx):
-    """Sjekker om brukeren har rollen 'Orakel'."""
+    """Sjekker om brukeren har rollen 'orakel'."""
 
-    # Henter rollen 'Orakel' fra serveren
-    role = discord.utils.get(ctx.guild.roles, name='Orakel')
+    # Henter rollen 'orakel' fra serveren
+    role = discord.utils.get(ctx.guild.roles, name='orakel')
 
     # Sjekker om brukeren har rollen. Returnerer resultatet
     return (role in ctx.author.roles)
@@ -36,7 +36,7 @@ def bruker_er_orakel(ctx):
 """ KOMMANDOER FOR ORAKLER """
 
 @bot.command()
-@commands.check(bruker_er_orakel)                 # Sørger for at brukeren har rollen "Orakel"
+@commands.check(bruker_er_orakel)                 # Sørger for at brukeren har rollen 'orakel'
 @commands.check(lambda _: not is_vaffel_orakel)   # Sørger for at vaffelstekingen ikke allerede er i gang
 async def vaffelstart(ctx):
     """Åpner for bestilling av vaffler."""
@@ -57,7 +57,7 @@ async def vaffelstart(ctx):
 
 
 @bot.command()
-@commands.check(bruker_er_orakel)             # Sørger for at brukeren har rollen "Orakel"
+@commands.check(bruker_er_orakel)             # Sørger for at brukeren har rollen 'orakel'
 @commands.check(lambda _: is_vaffel_orakel)   # Sørger for at vaffelstekingen er i gang
 async def vaffelstopp(ctx):
     """Stenger bestilling av vaffler. Kommandoen 'stekt' kan fortsatt brukes."""
@@ -77,7 +77,7 @@ async def vaffelstopp(ctx):
 
 
 @bot.command()
-@commands.check(bruker_er_orakel)   # Sørger for at brukeren har rollen "Orakel"
+@commands.check(bruker_er_orakel)   # Sørger for at brukeren har rollen 'orakel'
 async def stekt(ctx, *, arg = '0'):
     """Brukes når nye vaffler er stekt. Argumentet er antall vaffler som har blitt stekt siden sist."""
 
