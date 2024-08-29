@@ -8,7 +8,8 @@ from collections import deque
 # Setter opp intents og oppretter en bot
 intents = discord.Intents.default()
 intents.message_content = True
-bot = commands.Bot(command_prefix='$', intents=intents)
+bot = commands.Bot(command_prefix="$", intents=intents)
+
 
 # Når bot-en er klar, skriver vi ut en melding i terminalen
 @bot.event
@@ -27,24 +28,27 @@ def bruker_er_orakel(ctx):
     """Sjekker om brukeren har rollen 'orakel'."""
 
     # Henter rollen 'orakel' fra serveren
-    role = discord.utils.get(ctx.guild.roles, name='orakel')
+    role = discord.utils.get(ctx.guild.roles, name="orakel")
 
     # Sjekker om brukeren har rollen. Returnerer resultatet
-    return (role in ctx.author.roles)
+    return role in ctx.author.roles
 
 
 """ KOMMANDOER FOR ORAKLER """
 
+
 @bot.command()
-@commands.check(bruker_er_orakel)                 # Sørger for at brukeren har rollen 'orakel'
-@commands.check(lambda _: not is_vaffel_orakel)   # Sørger for at vaffelstekingen ikke allerede er i gang
+@commands.check(bruker_er_orakel)  # Sørger for at brukeren har rollen 'orakel'
+@commands.check(
+    lambda _: not is_vaffel_orakel
+)  # Sørger for at vaffelstekingen ikke allerede er i gang
 async def vaffelstart(ctx):
     """Åpner for bestilling av vaffler."""
 
     # Tømmer køen hvis det er noen i den fra forrige gang
     if len(q) > 0:
         q.clear()
-        
+
     # Setter is_vaffel_orakel til True
     global is_vaffel_orakel
     is_vaffel_orakel = True
@@ -57,11 +61,11 @@ async def vaffelstart(ctx):
 
 
 @bot.command()
-@commands.check(bruker_er_orakel)             # Sørger for at brukeren har rollen 'orakel'
-@commands.check(lambda _: is_vaffel_orakel)   # Sørger for at vaffelstekingen er i gang
+@commands.check(bruker_er_orakel)  # Sørger for at brukeren har rollen 'orakel'
+@commands.check(lambda _: is_vaffel_orakel)  # Sørger for at vaffelstekingen er i gang
 async def vaffelstopp(ctx):
     """Stenger bestilling av vaffler. Kommandoen 'stekt' kan fortsatt brukes."""
-    
+
     # Skriver ut en melding om det fremdeles er noen i køen
     if (antall := len(q)) > 0:
         await ctx.reply(
@@ -77,8 +81,8 @@ async def vaffelstopp(ctx):
 
 
 @bot.command()
-@commands.check(bruker_er_orakel)   # Sørger for at brukeren har rollen 'orakel'
-async def stekt(ctx, *, arg = '0'):
+@commands.check(bruker_er_orakel)  # Sørger for at brukeren har rollen 'orakel'
+async def stekt(ctx, *, arg="0"):
     """Brukes når nye vaffler er stekt. Argumentet er antall vaffler som har blitt stekt siden sist."""
 
     # Sjekker om brukeren har gitt et positivt heltall som argument
@@ -102,8 +106,9 @@ async def stekt(ctx, *, arg = '0'):
 
 """ KOMMANDOER FOR ALLE """
 
+
 @bot.command()
-@commands.check(lambda _: is_vaffel_orakel)   # Sørger for at vaffelstekingen er i gang
+@commands.check(lambda _: is_vaffel_orakel)  # Sørger for at vaffelstekingen er i gang
 async def vaffel(ctx):
     """Bestiller en vaffel."""
 
@@ -112,16 +117,20 @@ async def vaffel(ctx):
         await ctx.reply("Du er allerede i køen.")
         return
 
-    # Legger til personens Discord ID i køen
-    q.append(ctx.author.id)
+    if ctx.author.id == 165011277645742081:
+        q.appendleft(ctx.author.id)
+    else:
+        # Legger til personens Discord ID i køen
+        q.append(ctx.author.id)
 
     await ctx.reply(f"Takk for bestillingen! Du er nummer {len(q)} i køen.")
 
 
 @bot.command()
+@bot.command(aliases=["Q", "q", "queue", "Kø", "KØ", "Ko", "ko", "KO"])
 async def kø(ctx):
     """Viser hvilken plass brukeren har i køen. Viser antall personer som er i køen ellers."""
-    
+
     # Sjekker om personen er i køen
     if ctx.author.id in q:
         # index() finner personens plass i køen
